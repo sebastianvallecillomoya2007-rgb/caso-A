@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Dashboard financiero y de marketing para Tueste.">
+  <title>Tueste | Análisis financiero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal">
+      <a class="brand" href="#inicio" aria-label="Tueste, ir al inicio">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span><strong>tueste</strong><small>COFFEE CO.</small></span>
+      </a>
+      <div class="side-label">ESPACIO DE TRABAJO</div>
+      <nav class="side-nav">
+        <a class="nav-link active" href="#inicio"><span class="nav-icon">▦</span> Resumen</a>
+        <a class="nav-link" href="#escenarios"><span class="nav-icon">◫</span> Escenarios</a>
+        <a class="nav-link" href="#simulador"><span class="nav-icon">⌁</span> Simulador 24 meses</a>
+        <a class="nav-link" href="#formulas"><span class="nav-icon">ƒ</span> Fórmulas y supuestos</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-label">ESTADO DEL MODELO</div>
+        <div class="model-status"><span class="status-dot"></span><span>Modelo local activo</span></div>
+        <p>Los cambios se guardan en este navegador.</p>
+        <a class="sidebar-readme" href="../README.md">Guía del proyecto ↗</a>
+      </div>
+    </aside>
+
+    <main class="main-content" id="inicio">
+      <header class="topbar">
+        <div class="breadcrumb">Tueste <span>/</span> Análisis financiero</div>
+        <div class="top-actions">
+          <span class="saved-state" id="savedState" aria-live="polite">Configuración guardada localmente</span>
+          <button type="button" class="button button-quiet" id="restoreButton">Restaurar datos originales</button>
+        </div>
+      </header>
+
+      <section class="page-intro">
+        <div>
+          <p class="eyebrow">PANEL DE CONTROL <span class="eyebrow-dot"></span> OCTUBRE 2026</p>
+          <h1>Tu negocio, <em>en perspectiva.</em></h1>
+          <p class="intro-copy">Una lectura clara de adquisición, contribución y caja para tomar decisiones con confianza.</p>
+        </div>
+        <a class="text-link" href="#supuestos">Ajustar supuestos <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <section class="section-block" aria-labelledby="indicatorsHeading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">RENDIMIENTO UNITARIO</p>
+            <h2 id="indicatorsHeading">Indicadores clave</h2>
+          </div>
+          <span class="section-note">Se actualizan al cambiar los supuestos</span>
+        </div>
+        <div class="kpi-grid">
+          <article class="kpi-card accent-green"><div class="kpi-top"><span>Margen · pedido normal</span><span class="kpi-symbol">↗</span></div><strong id="kpiNormalMargin">—</strong><small>por pedido antes de costos fijos</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Margen · suscripción</span><span class="kpi-symbol">↗</span></div><strong id="kpiSubscriptionMargin">—</strong><small>por pedido recurrente</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>ROAS break-even</span><span class="kpi-symbol">◎</span></div><strong id="kpiBreakEvenRoas">—</strong><small>pedido normal · sin costos fijos</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>CAC de anuncios</span><span class="kpi-symbol">↓</span></div><strong id="kpiAdCac">—</strong><small>inversión Meta / clientes Meta</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>CAC real</span><span class="kpi-symbol">↓</span></div><strong id="kpiRealCac">—</strong><small>incluye fee de agencia</small></article>
+          <article class="kpi-card accent-yellow"><div class="kpi-top"><span>ROAS · primer pedido</span><span class="kpi-symbol">◉</span></div><strong id="kpiRealRoas">—</strong><small>ventas atribuidas / inversión Meta</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>LTV · cliente suelto</span><span class="kpi-symbol">↗</span></div><strong id="kpiLooseLtv">—</strong><small>contribución de 3 pedidos</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>LTV · suscriptor</span><span class="kpi-symbol">↗</span></div><strong id="kpiSubscriberLtv">—</strong><small>12 meses · retención mensual</small></article>
+          <article class="kpi-card accent-green"><div class="kpi-top"><span>LTV promedio</span><span class="kpi-symbol">✳</span></div><strong id="kpiAverageLtv">—</strong><small>ponderado por mezcla de clientes</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>Relación LTV:CAC</span><span class="kpi-symbol">⟷</span></div><strong id="kpiLtvCac">—</strong><small>referencia saludable: 3:1</small></article>
+          <article class="kpi-card accent-yellow"><div class="kpi-top"><span>Payback estimado</span><span class="kpi-symbol">◷</span></div><strong id="kpiPayback">—</strong><small>mes de recuperación del CAC real</small></article>
+          <article class="kpi-card"><div class="kpi-top"><span>CAC marginal</span><span class="kpi-symbol">⌁</span></div><strong id="kpiMarginalCac">—</strong><small id="marginalHint">tramo superior de adquisición</small></article>
+        </div>
+      </section>
+
+      <section class="section-block" aria-labelledby="chartsHeading">
+        <div class="section-heading">
+          <div><p class="eyebrow">LECTURA DEL NEGOCIO</p><h2 id="chartsHeading">El valor detrás de cada cliente</h2></div>
+          <span class="section-note">Valores de contribución, no de ventas</span>
+        </div>
+        <div class="chart-grid">
+          <article class="panel chart-panel chart-wide">
+            <div class="panel-heading"><div><h3>Recuperación acumulada por cliente</h3><p>Mes 0 inicia con el CAC real negativo</p></div><span class="chart-tag">MES 0–12</span></div>
+            <div class="chart-wrap"><canvas id="paybackChart" role="img" aria-label="Gráfico de contribución acumulada desde CAC negativo"></canvas></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><h3>LTV vs. CAC</h3><p>Valor de vida comparado con costo de adquisición</p></div></div>
+            <div class="chart-wrap"><canvas id="ltvCacChart" role="img" aria-label="Comparación de LTV, CAC y referencias uno a uno y tres a uno"></canvas></div>
+          </article>
+          <article class="panel chart-panel">
+            <div class="panel-heading"><div><h3>Inversión y CAC marginal</h3><p>La eficiencia cambia con el presupuesto</p></div></div>
+            <div class="chart-wrap"><canvas id="acquisitionChart" role="img" aria-label="Clientes nuevos y CAC marginal por nivel de inversión"></canvas></div>
+          </article>
+          <article class="panel chart-panel chart-wide">
+            <div class="panel-heading"><div><h3>ROAS de primer pedido</h3><p>Meta y ROAS real siguen la fórmula del caso; el neto incorpora el fee</p></div><span class="chart-tag">VENTA / INVERSIÓN</span></div>
+            <div class="chart-wrap chart-wrap-short"><canvas id="roasChart" role="img" aria-label="ROAS de Meta, ROAS después del fee y punto de equilibrio"></canvas></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block" id="escenarios" aria-labelledby="scenarioHeading">
+        <div class="section-heading">
+          <div><p class="eyebrow">DECISIONES DE ADQUISICIÓN</p><h2 id="scenarioHeading">Tres escenarios, una comparación</h2></div>
+          <span class="section-note">Supuestos independientes para cada propuesta</span>
+        </div>
+        <div class="scenario-grid" id="scenarioGrid"></div>
+        <div class="panel scenario-footnote"><span class="info-icon">i</span><p>El escenario B aplica el descuento de primer pedido solo al segmento de pedidos sueltos. En C, la adopción del pack reemplaza el primer pedido normal; la tasa de adopción se puede ajustar en supuestos. El CAC real incluye fee cuando corresponde.</p></div>
+      </section>
+
+      <section class="section-block" id="simulador" aria-labelledby="simulatorHeading">
+        <div class="section-heading">
+          <div><p class="eyebrow">PLANEACIÓN DE CAJA</p><h2 id="simulatorHeading">Simulador de 24 meses</h2><p class="heading-copy">Compara inversión, contribución por cohortes y caja disponible.</p></div>
+          <button type="button" class="button button-primary" id="runSimulationButton"><span aria-hidden="true">▶</span> Ejecutar simulación</button>
+        </div>
+        <div class="simulator-controls panel">
+          <div class="sim-control-copy"><div class="control-icon">⌁</div><div><strong>Alternativa conservadora</strong><p>Inversión mensual durante los primeros 12 meses. De los meses 13–24 se mantiene como mínimo el promedio del primer año.</p></div></div>
+          <div class="range-control"><label for="altMonthlyInvestment">Inversión mensual <strong id="altInvestmentValue">$4,000</strong></label><input id="altMonthlyInvestment" type="range" min="0" max="20000" step="500" value="4000"><div class="range-ends"><span>$0</span><span>$20,000</span></div></div>
+          <div class="sim-controls-right"><div class="constraint-chip"><span class="status-dot"></span> Piso de caja <strong id="minimumCashLabel">$5,000</strong></div><button type="button" class="button button-outline" id="exportCsvButton" disabled>↓ Exportar CSV</button></div>
+        </div>
+        <div class="plan-grid" id="planSummary"></div>
+        <div class="panel chart-panel cash-chart-panel">
+          <div class="panel-heading"><div><h3>Evolución de caja por plan</h3><p>La línea punteada representa el piso mínimo permitido</p></div><span class="chart-tag">24 MESES · USD</span></div>
+          <div class="chart-wrap"><canvas id="cashChart" role="img" aria-label="Curvas de caja acumulada de los cuatro planes y el piso mínimo"></canvas></div>
+        </div>
+        <div id="simulationAlerts" aria-live="polite"></div>
+        <div class="panel table-panel">
+          <div class="panel-heading table-heading"><div><h3>Detalle mensual</h3><p>Contribución de cohortes separada de ventas e inversión</p></div><span class="table-count" id="tableCount">96 registros</span></div>
+          <div class="table-scroll"><table><thead><tr><th>Plan</th><th>Mes</th><th>Inversión</th><th>Nuevos Meta</th><th>Nuevos totales</th><th>Contrib. cohortes</th><th>Clientes actuales</th><th>Salidas totales</th><th>Caja final</th><th>Suscriptores activos</th></tr></thead><tbody id="simulationTableBody"><tr><td colspan="10" class="empty-state">Ejecuta la simulación para ver el detalle de los 24 meses.</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="section-block" id="supuestos" aria-labelledby="assumptionsHeading">
+        <div class="section-heading">
+          <div><p class="eyebrow">MODELO TRANSPARENTE</p><h2 id="assumptionsHeading">Supuestos editables</h2><p class="heading-copy">Ajusta los controles. Tus valores se guardan solo en este navegador.</p></div>
+        </div>
+        <div class="assumptions-layout">
+          <div class="assumption-groups">
+            <details class="panel assumption-group" open>
+              <summary><span class="summary-icon">＄</span><span><strong>Precios y costos variables</strong><small>Margen por pedido y rentabilidad del pack</small></span><span class="summary-chevron">⌄</span></summary>
+              <div class="assumption-controls">
+                <div class="assumption-control"><label for="normalPrice">Precio pedido normal</label><div class="input-with-unit"><span>$</span><input id="normalPrice" data-control="normalPrice" type="number" min="0" max="500" step="0.01"></div></div>
+                <div class="assumption-control"><label for="subscriptionPrice">Precio suscripción</label><div class="input-with-unit"><span>$</span><input id="subscriptionPrice" data-control="subscriptionPrice" type="number" min="0" max="500" step="0.01"></div></div>
+                <div class="assumption-control"><label for="coffeeCost">Costo de café por pedido</label><div class="input-with-unit"><span>$</span><input id="coffeeCost" data-control="coffeeCost" type="number" min="0" max="100" step="0.01"></div></div>
+                <div class="assumption-control"><label for="shippingCost">Costo del envío</label><div class="input-with-unit"><span>$</span><input id="shippingCost" data-control="shippingCost" type="number" min="0" max="100" step="0.01"></div></div>
+                <div class="assumption-control"><label for="paymentFee">Comisión de pago</label><div class="input-with-unit"><input id="paymentFee" data-control="paymentFee" type="number" min="0" max="25" step="0.1"><span>%</span></div></div>
+                <div class="assumption-control"><label for="packagingCost">Costo de empaque</label><div class="input-with-unit"><span>$</span><input id="packagingCost" data-control="packagingCost" type="number" min="0" max="50" step="0.01"></div></div>
+                <div class="assumption-control"><label for="packUnitCoffeeCost">Café por bolsa del pack</label><div class="input-with-unit"><span>$</span><input id="packUnitCoffeeCost" data-control="packUnitCoffeeCost" type="number" min="0" max="50" step="0.01"></div></div>
+                <div class="assumption-control"><label for="packPrice">Precio del pack de 3 bolsas</label><div class="input-with-unit"><span>$</span><input id="packPrice" data-control="packPrice" type="number" min="0" max="500" step="0.01"></div></div>
+                <div class="assumption-control"><label for="packBoxCost">Caja del pack</label><div class="input-with-unit"><span>$</span><input id="packBoxCost" data-control="packBoxCost" type="number" min="0" max="50" step="0.01"></div></div>
+                <div class="assumption-control"><label for="firstDiscount">Descuento primer pedido suelto</label><div class="input-with-unit"><input id="firstDiscount" data-control="firstDiscount" type="number" min="0" max="90" step="1"><span>%</span></div></div>
+                <div class="assumption-control full-control"><label for="packAdoption">Adopción del pack en escenario C <strong id="packAdoptionValue">0%</strong></label><input id="packAdoption" data-control="packAdoption" type="range" min="0" max="100" step="1"><div class="range-ends"><span>0%</span><span>100%</span></div></div>
+              </div>
+            </details>
+            <details class="panel assumption-group">
+              <summary><span class="summary-icon">↗</span><span><strong>Adquisición y mezcla</strong><small>Inversión, fee y comportamiento de clientes</small></span><span class="summary-chevron">⌄</span></summary>
+              <div class="assumption-controls">
+                <div class="assumption-control"><label for="adSpend">Inversión Meta de referencia</label><div class="input-with-unit"><span>$</span><input id="adSpend" data-control="adSpend" type="number" min="0" max="20000" step="100"></div></div>
+                <div class="assumption-control"><label for="agencyFee">Fee de agencia mensual</label><div class="input-with-unit"><span>$</span><input id="agencyFee" data-control="agencyFee" type="number" min="0" max="20000" step="50"></div></div>
+                <div class="assumption-control"><label for="subscriberShare">Porcentaje de suscriptores</label><div class="input-with-unit"><input id="subscriberShare" data-control="subscriberShare" type="number" min="0" max="100" step="1"><span>%</span></div><small>El porcentaje suelto se calcula como complemento.</small></div>
+                <div class="assumption-control"><label for="churnRate">Cancelación mensual</label><div class="input-with-unit"><input id="churnRate" data-control="churnRate" type="number" min="0" max="100" step="0.1"><span>%</span></div></div>
+                <div class="assumption-control"><label for="looseOrders12m">Pedidos sueltos en 12 meses</label><div class="input-with-unit"><input id="looseOrders12m" data-control="looseOrders12m" type="number" min="0" max="24" step="0.1"><span>pedidos</span></div></div>
+                <div class="assumption-control"><label for="firstMonthOrders">Pedidos sueltos en mes 1</label><div class="input-with-unit"><input id="firstMonthOrders" data-control="firstMonthOrders" type="number" min="0" max="5" step="0.1"><span>pedidos</span></div></div>
+                <div class="assumption-control full-control"><label>Mezcla resultante</label><div class="mix-readout"><span><i class="mix-dot loose-dot"></i> Sueltos <strong id="looseShareReadout">85%</strong></span><span><i class="mix-dot subscription-dot"></i> Suscriptores <strong id="subscriberShareReadout">15%</strong></span></div></div>
+              </div>
+            </details>
+            <details class="panel assumption-group">
+              <summary><span class="summary-icon">⌂</span><span><strong>Supuestos de caja</strong><small>Liquidez, costos operativos y clientes actuales</small></span><span class="summary-chevron">⌄</span></summary>
+              <div class="assumption-controls">
+                <div class="assumption-control"><label for="initialCash">Caja inicial</label><div class="input-with-unit"><span>$</span><input id="initialCash" data-control="initialCash" type="number" min="0" max="1000000" step="500"></div></div>
+                <div class="assumption-control"><label for="fixedCosts">Costos fijos mensuales</label><div class="input-with-unit"><span>$</span><input id="fixedCosts" data-control="fixedCosts" type="number" min="0" max="100000" step="100"></div></div>
+                <div class="assumption-control"><label for="minimumCash">Caja mínima permitida</label><div class="input-with-unit"><span>$</span><input id="minimumCash" data-control="minimumCash" type="number" min="0" max="100000" step="100"></div></div>
+                <div class="assumption-control"><label for="existingContribution">Contribución actual · mes 1</label><div class="input-with-unit"><span>$</span><input id="existingContribution" data-control="existingContribution" type="number" min="0" max="100000" step="100"></div></div>
+                <div class="assumption-control"><label for="existingDecay">Disminución mensual de clientes actuales</label><div class="input-with-unit"><input id="existingDecay" data-control="existingDecay" type="number" min="0" max="50" step="0.1"><span>%</span></div></div>
+                <div class="assumption-control"><label for="nonMetaCustomers">Clientes nuevos mensuales sin Meta</label><div class="input-with-unit"><input id="nonMetaCustomers" data-control="nonMetaCustomers" type="number" min="0" max="10000" step="1"><span>clientes</span></div></div>
+              </div>
+            </details>
+          </div>
+          <aside class="panel history-panel">
+            <div class="panel-heading"><div><h3>Historial de adquisición</h3><p>Interpolación lineal entre puntos</p></div></div>
+            <div class="history-list">
+              <div><span>$0</span><span class="history-bar"><i style="width:0%"></i></span><strong>0</strong></div>
+              <div><span>$4,000</span><span class="history-bar"><i style="width:40%"></i></span><strong>100</strong></div>
+              <div><span>$8,000</span><span class="history-bar"><i style="width:66%"></i></span><strong>165</strong></div>
+              <div><span>$12,000</span><span class="history-bar"><i style="width:84%"></i></span><strong>210</strong></div>
+              <div><span>$16,000</span><span class="history-bar"><i style="width:94%"></i></span><strong>235</strong></div>
+              <div><span>$20,000</span><span class="history-bar"><i style="width:100%"></i></span><strong>250</strong></div>
+            </div>
+            <div class="history-current"><span>Clientes Meta al presupuesto actual</span><strong id="currentAcquisitionReadout">165</strong></div>
+            <div class="history-note"><span class="info-icon">i</span><p>Fuera del rango $0–$20,000, la simulación limita la inversión al rango observado. Los clientes sin Meta se agregan por separado.</p></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section-block" id="formulas" aria-labelledby="formulaHeading">
+        <div class="section-heading"><div><p class="eyebrow">CÓMO LEER EL MODELO</p><h2 id="formulaHeading">Fórmulas y limitaciones</h2></div></div>
+        <div class="formula-grid">
+          <article class="panel formula-panel"><h3>Contribución por pedido</h3><p><code>Margen normal = precio − café − envío − comisión de pago − empaque</code></p><p><code>Margen suscripción = precio suscripción − café − envío − comisión − empaque</code></p><p><code>Margen pack = precio − (3 × costo por bolsa) − (precio × comisión) − caja</code></p></article>
+          <article class="panel formula-panel"><h3>Adquisición y valor</h3><p><code>CAC anuncios = inversión / clientes nuevos de Meta</code></p><p><code>CAC real = (inversión + fee) / clientes nuevos de Meta</code></p><p><code>LTV promedio = (participación suelta × LTV suelto) + (participación suscripción × LTV suscripción)</code></p></article>
+          <article class="panel formula-panel"><h3>Retención y caja</h3><p><code>LTV suscripción = margen suscripción × Σ (1 − cancelación)^mes</code></p><p><code>Caja fin de mes = caja anterior + contribución − inversión − fee − costos fijos</code></p><p>Las curvas de caja acumulan contribución; nunca suman ventas brutas como si fueran margen.</p></article>
+        </div>
+        <div class="panel limitation-panel">
+          <div class="limitation-title"><span class="info-icon">i</span><div><h3>Supuestos y limitaciones</h3><p>Los datos no especificados en el caso se identifican aquí y se pueden ajustar.</p></div></div>
+          <ul>
+            <li>La frecuencia mensual de pedidos sueltos no venía detallada. El modelo asigna los pedidos del mes 1 al dato editable y distribuye el resto del total de 12 meses uniformemente entre los meses 2–12. De los meses 13–24 usa 0.10 pedidos/mes.</li>
+            <li>La adopción del pack no está dada: inicia en 0% (sin adopción asumida) y se puede cambiar. En el escenario C, el pack reemplaza el primer pedido suelto; los pedidos restantes siguen la frecuencia del modelo.</li>
+            <li>Los clientes sin Meta se agregan como cohorte nueva mensual, con la misma mezcla de clientes, frecuencia y retención que los clientes de Meta.</li>
+            <li>El plan alternativo conservador invierte el monto elegido durante los primeros 12 meses; luego invierte al menos el promedio del primer año. El plan optimizado es una heurística mensual: maximiza inversión hasta $20,000 sin cruzar el piso de caja de ese mes, sujeto a la regla del promedio desde el mes 13. No garantiza caja futura.</li>
+            <li>La atribución usa el precio normal de $34 por cliente nuevo; no modela impuestos, devoluciones, crecimiento orgánico adicional, costos variables diferentes por cohorte ni valor del dinero en el tiempo.</li>
+          </ul>
+        </div>
+      </section>
+      <footer class="page-footer"><span>Tueste Coffee Co. <span class="footer-divider">·</span> Modelo de análisis, no asesoría financiera</span><span>Los datos permanecen en tu dispositivo</span></footer>
+    </main>
+  </div>
+</body>
+</html>
