@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111713">
+  <meta name="description" content="Prototipo simulado del programa de referidos de Tueste y su ficha de growth.">
+  <title>Tueste | Programa de referidos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="referidos.css">
+  <script src="referidos.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navegación principal">
+      <a class="brand" href="index.html#inicio" aria-label="Tueste, ir al dashboard">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span><strong>tueste</strong><small>COFFEE CO.</small></span>
+      </a>
+      <div class="side-label">ESPACIO DE TRABAJO</div>
+      <nav class="side-nav">
+        <a class="nav-link" href="index.html#inicio"><span class="nav-icon">▦</span> Resumen</a>
+        <a class="nav-link" href="index.html#escenarios"><span class="nav-icon">◫</span> Escenarios</a>
+        <a class="nav-link" href="index.html#simulador"><span class="nav-icon">⌁</span> Simulador 24 meses</a>
+        <a class="nav-link active" href="referidos.html" aria-current="page"><span class="nav-icon">↗</span> Programa de referidos</a>
+        <a class="nav-link" href="#ficha-growth"><span class="nav-icon">ƒ</span> Ficha de growth</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="side-label">PROTOTIPO</div>
+        <div class="model-status"><span class="status-dot"></span><span>Demostración local</span></div>
+        <p>Los pedidos y el panel son simulados. No se cobra ni se guardan datos personales.</p>
+        <a class="sidebar-readme" href="../README.md">Guía del proyecto ↗</a>
+      </div>
+    </aside>
+
+    <main class="main-content" id="inicio">
+      <header class="topbar">
+        <div class="breadcrumb"><a href="index.html">Tueste</a> <span>/</span> Programa de referidos</div>
+        <div class="top-actions">
+          <span class="ref-demo-label"><span class="status-dot"></span> PROTOTIPO · DATOS SIMULADOS</span>
+          <button type="button" class="button button-quiet" id="refResetButton">Reiniciar demostración</button>
+        </div>
+      </header>
+
+      <section class="page-intro ref-intro">
+        <div>
+          <p class="eyebrow">CRECIMIENTO SIN DEPENDER SOLO DE ANUNCIOS</p>
+          <h1>Un buen café <em>se comparte.</em></h1>
+          <p class="intro-copy">Invita después de probarlo. Tu amigo recibe su regalo aplicado y tú ves cada avance.</p>
+        </div>
+        <a class="text-link" href="#ficha-growth">Ver la ficha de growth <span aria-hidden="true">↓</span></a>
+      </section>
+
+      <section class="section-block" aria-labelledby="refProgramHeading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">RECORRIDO DE PRINCIPIO A FIN</p>
+            <h2 id="refProgramHeading">Así funciona “Regala una bolsa”</h2>
+          </div>
+          <span class="section-note">Sin códigos que copiar · diseñado para celular</span>
+        </div>
+
+        <div class="ref-tabs" role="tablist" aria-label="Vistas del prototipo">
+          <button type="button" class="ref-tab" id="refInviteTab" role="tab" aria-selected="true" aria-controls="refInvitePanel" data-ref-view="invite">Quiero invitar</button>
+          <button type="button" class="ref-tab" id="refFriendTab" role="tab" aria-selected="false" aria-controls="refFriendPanel" data-ref-view="friend">Recibí una invitación</button>
+          <button type="button" class="ref-tab" id="refOwnerTab" role="tab" aria-selected="false" aria-controls="refOwnerPanel" data-ref-view="owner">Panel de Diego</button>
+        </div>
+
+        <section class="panel ref-view" id="refInvitePanel" role="tabpanel" aria-labelledby="refInviteTab">
+          <div class="ref-view-heading">
+            <div>
+              <p class="eyebrow">VISTA DE CLIENTE · MARA (DEMO)</p>
+              <h3>Primero disfrútalo. Después, compártelo.</h3>
+              <p>La invitación aparece cuando el pedido llega y ya probaste el café, no al día siguiente de pagar.</p>
+            </div>
+            <span class="ref-step-pill" id="refInviteStatus">Pedido en camino · día 1 de 3</span>
+          </div>
+          <div class="ref-invite-grid">
+            <article class="ref-order-card">
+              <span class="ref-card-icon" aria-hidden="true">☕</span>
+              <div>
+                <strong>Tueste de origen · 2 bolsas</strong>
+                <p id="refOrderMessage">Tu café llega en unos días. Te avisaremos para invitar cuando lo hayas probado.</p>
+              </div>
+              <button type="button" class="button button-primary" id="refTriedButton">Simular entrega y probar el café</button>
+            </article>
+            <article class="ref-share-card" id="refShareLocked">
+              <h4>Tu invitación se activa después de probarlo</h4>
+              <p>Así puedes contarle a alguien lo que realmente te gustó.</p>
+              <div class="ref-locked-note"><span aria-hidden="true">◷</span> Disponible después de la entrega</div>
+            </article>
+            <article class="ref-share-card" id="refShareReady" hidden>
+              <div class="ref-card-topline"><span class="ref-step-pill ref-step-ready">LISTA PARA COMPARTIR</span><span class="ref-small-note">Link personal · sin código</span></div>
+              <h4>Regálale $8 a alguien que quieres.</h4>
+              <p>Al completar su primer pedido, tú recibes una muestra de 100 g para tu siguiente envío.</p>
+              <label class="ref-field-label" for="refLink">Tu enlace personal</label>
+              <div class="ref-copy-row">
+                <input id="refLink" type="text" readonly aria-label="Enlace personal de invitación">
+                <button type="button" class="button button-outline" id="refCopyButton">Copiar</button>
+              </div>
+              <a class="button button-primary ref-whatsapp" id="refWhatsAppLink" href="#" target="_blank" rel="noopener noreferrer">Enviar por WhatsApp</a>
+              <p class="ref-ready-message" id="refInviteMessage" aria-live="polite"></p>
+            </article>
+          </div>
+          <div class="ref-reward-strip">
+            <div><span class="ref-reward-icon">01</span><span><strong>1 amigo compra</strong><small>Muestra de 100 g · costo $1.60</small></span></div>
+            <div><span class="ref-reward-icon">03</span><span><strong>3 amigos compran</strong><small>Bolsa de 340 g · costo $5.44</small></span></div>
+            <div><span class="ref-reward-icon">↗</span><span><strong>Un amigo se suscribe</strong><small>$5 de saldo · solo una vez por alta</small></span></div>
+          </div>
+          <div class="ref-progress-card">
+            <div class="ref-progress-copy"><strong>Tu progreso hacia una bolsa de 340 g</strong><span id="refProgressText">0 de 3 compras referidas</span></div>
+            <div class="ref-progress-track" role="progressbar" aria-label="Progreso hacia la recompensa de tres compras referidas" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="refProgressBar"><span id="refProgressFill"></span></div>
+            <div class="ref-notice" id="refInviterNotice" role="status" hidden></div>
+          </div>
+        </section>
+
+        <section class="panel ref-view" id="refFriendPanel" role="tabpanel" aria-labelledby="refFriendTab" hidden>
+          <div class="ref-friend-layout">
+            <div class="ref-friend-copy">
+              <p class="eyebrow">TE INVITÓ MARA · REGALO APLICADO</p>
+              <h3>Tu primer café, con $8 de regalo.</h3>
+              <p>Elige cómo quieres probar Tueste. El descuento ya está aplicado: no hay códigos ni pasos sorpresa al pagar.</p>
+              <label class="ref-field-label" for="refFriendOrder">Elige tu primera compra</label>
+              <select id="refFriendOrder">
+                <option value="loose">2 bolsas · pedido único</option>
+                <option value="subscription">2 bolsas al mes · suscripción cancelable</option>
+              </select>
+              <div class="ref-price-card">
+                <span>Descuento de bienvenida · $8</span>
+                <strong><del id="refOriginalPrice">$34.00</del> <b id="refFinalPrice">$26.00</b></strong>
+                <small id="refPriceNote">Pedido único · antes de impuestos, si aplican</small>
+              </div>
+              <button type="button" class="button button-primary" id="refCompletePurchase">Confirmar compra simulada</button>
+              <p class="ref-demo-note">Demostración: este botón no procesa pagos ni genera una orden real.</p>
+              <div class="ref-friend-result" id="refFriendResult" role="status" hidden></div>
+            </div>
+            <aside class="ref-gift-card">
+              <span class="ref-gift-label">TU REGALO</span>
+              <strong>$8</strong>
+              <span>menos en tu primera compra</span>
+              <div class="ref-gift-divider"></div>
+              <p>Un detalle de Mara, para que pruebes café de especialidad recién tostado.</p>
+              <span class="ref-gift-tag">22 tazas por bolsa · recién tostado</span>
+            </aside>
+          </div>
+        </section>
+
+        <section class="panel ref-view" id="refOwnerPanel" role="tabpanel" aria-labelledby="refOwnerTab" hidden>
+          <div class="ref-view-heading">
+            <div>
+              <p class="eyebrow">VISTA DEL DUEÑO · DATOS DEL CASO</p>
+              <h3>El embudo de referidos, sin perder de vista cada paso.</h3>
+              <p>Base de 1,000 clientes elegibles. Los clics que hagas en la demo se muestran por separado.</p>
+            </div>
+            <span class="ref-simulated-pill">SIMULADO</span>
+          </div>
+          <div class="ref-funnel">
+            <article class="ref-funnel-step"><span>01 · INVITACIÓN</span><strong>1,000</strong><small>clientes reciben el mensaje</small><b>Base del caso</b></article>
+            <span class="ref-funnel-rate">35%<small>abren</small></span>
+            <article class="ref-funnel-step"><span>02 · ABREN</span><strong>350</strong><small>ven el correo</small><b class="ref-drop">−65% no abre</b></article>
+            <span class="ref-funnel-rate">34.3%<small>visitan</small></span>
+            <article class="ref-funnel-step ref-funnel-focus"><span>03 · ENTRAN</span><strong>120</strong><small>llegan al programa</small><b class="ref-drop">−65.7% mayor fuga relativa</b></article>
+            <span class="ref-funnel-rate">83.3%<small>comparte</small></span>
+            <article class="ref-funnel-step"><span>04 · COMPARTEN</span><strong>100</strong><small>envían 300 invitaciones</small><b>3 por persona</b></article>
+            <span class="ref-funnel-rate">50%<small>visita tienda</small></span>
+            <article class="ref-funnel-step"><span>05 · VISITAN</span><strong>150</strong><small>amigos abren la tienda</small><b class="ref-drop">−50% no entra</b></article>
+            <span class="ref-funnel-rate">20%<small>compra</small></span>
+            <article class="ref-funnel-step ref-funnel-final"><span>06 · COMPRAN</span><strong>30</strong><small>nuevos clientes referidos</small><b>3 por cada 100 elegibles</b></article>
+          </div>
+          <div class="ref-funnel-insight"><strong>¿Dónde se atora?</strong><span>La mayor fuga relativa ocurre entre abrir el correo y llegar al programa: 350 → 120 (−65.7%). Además, 7 de cada 10 personas que invitaron no sabían que tenían una recompensa. La invitación llega antes de probar el café y el código añade fricción.</span></div>
+          <div class="ref-target-funnel">
+            <div class="ref-target-heading"><strong>Ruta para probar la meta · hipótesis, no pronóstico</strong><span>1,000 clientes elegibles → 80 compras referidas (8 / 100)</span></div>
+            <div class="ref-target-grid">
+              <div><span>Abren invitación</span><strong>500 / 1,000</strong><small>50% · hoy 35%</small></div>
+              <div><span>Entran al programa</span><strong>300 / 500</strong><small>60% · hoy 34.3%</small></div>
+              <div><span>Comparten</span><strong>250</strong><small>83.3% · 3 mensajes c/u</small></div>
+              <div><span>Abren la tienda</span><strong>375 / 750</strong><small>50% de los mensajes</small></div>
+              <div><span>Compran</span><strong>80 / 375</strong><small>21.3% · hoy 20%</small></div>
+            </div>
+            <p>La apuesta es reducir la fuga de entrada con una invitación a tiempo y una oferta visible. Las tasas futuras son supuestos que el A/B debe confirmar.</p>
+          </div>
+          <div class="ref-owner-live">
+            <div><span>Compras de referido simuladas en esta sesión</span><strong id="refDemoPurchaseCount">0</strong></div>
+            <div><span>Recompensas simuladas acumuladas</span><strong id="refDemoRewardCost">$0.00</strong></div>
+            <button type="button" class="button button-outline" data-ref-view="friend">Probar como amigo</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="section-block" id="ficha-growth" aria-labelledby="refGrowthHeading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">FICHA DE GROWTH · HIPÓTESIS PARA VALIDAR</p>
+            <h2 id="refGrowthHeading">Crecer con clientes, cuidar cada dólar</h2>
+          </div>
+          <span class="section-note">Cifras fuente separadas de metas y supuestos</span>
+        </div>
+
+        <div class="ref-metric-grid">
+          <article class="panel ref-metric"><span>CAC Meta real · hoy</span><strong id="refPaidCac">$50.00</strong><small>($4,000 inversión + $1,000 fee) / 100 clientes</small></article>
+          <article class="panel ref-metric"><span>Máximo permitido por referido</span><strong id="refRewardCap">$25.00</strong><small>La mitad del CAC real de Meta</small></article>
+          <article class="panel ref-metric"><span>Referidos actuales</span><strong>3 / 100</strong><small>30 compras / 1,000 clientes elegibles</small></article>
+          <article class="panel ref-metric ref-metric-goal"><span>Meta a probar · no garantizada</span><strong>8 / 100</strong><small>80 compras / 1,000 clientes elegibles</small></article>
+        </div>
+
+        <div class="ref-growth-grid">
+          <article class="panel ref-growth-panel">
+            <div class="panel-heading"><div><h3>Ciclo que propone el prototipo</h3><p>Del café probado a la siguiente compra</p></div><span class="ref-simulated-pill">HIPÓTESIS</span></div>
+            <ol class="ref-cycle">
+              <li><span>01</span><div><strong>Cliente recibe y prueba</strong><small>Invitación en el día 3, después de la entrega.</small></div></li>
+              <li><span>02</span><div><strong>Comparte su link personal</strong><small>Mensaje listo para WhatsApp; sin código que copiar.</small></div></li>
+              <li><span>03</span><div><strong>Amigo llega a una página simple</strong><small>Quién lo invitó y sus $8 ya aplicados.</small></div></li>
+              <li><span>04</span><div><strong>Hace su primera compra</strong><small>El invitador recibe aviso y recompensa visible.</small></div></li>
+              <li><span>05</span><div><strong>El nuevo cliente puede invitar</strong><small>El ciclo vuelve a empezar después de probar su café.</small></div></li>
+            </ol>
+          </article>
+          <article class="panel ref-growth-panel">
+            <div class="panel-heading"><div><h3>Recompensas y tope de costo</h3><p>Incluye los dos lados y el premio por nivel</p></div></div>
+            <div class="ref-reward-table-wrap">
+              <table class="ref-reward-table">
+                <thead><tr><th>Evento</th><th>Amigo / invitador</th><th>Costo usado</th></tr></thead>
+                <tbody>
+                  <tr><td>Primera compra</td><td>Amigo: $8 de descuento</td><td>$8.00</td></tr>
+                  <tr><td>Primera compra</td><td>Invitador: muestra de 100 g</td><td>$1.60</td></tr>
+                  <tr><td>Se suscribe</td><td>Invitador: $5 de saldo (15% esperado)</td><td>$0.75 esperado</td></tr>
+                  <tr><td>3 compras referidas</td><td>Invitador: bolsa de 340 g; se reparte entre 3</td><td>$1.81 por referido</td></tr>
+                  <tr class="ref-pilot-reference"><td>Piloto actual</td><td>$8 al amigo + $8 al invitador</td><td>$16.00</td></tr>
+                  <tr class="ref-reward-total"><td colspan="2">Costo esperado por referido</td><td id="refExpectedRewardCost">$12.16</td></tr>
+                  <tr class="ref-reward-limit"><td colspan="2">Peor caso: los tres se suscriben, incluye nivel</td><td id="refWorstRewardCost">$16.41</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="ref-calculation-note">El costo de un mes gratis no se usa: dejar de cobrar $30.60 y asumir café, envío y empaque costaría $47.18, por encima del límite de $25.</p>
+            <p class="ref-cap-check"><span aria-hidden="true">✓</span> <strong id="refRewardCapCheck">Costo esperado y peor caso dentro del límite de $25.00.</strong></p>
+          </article>
+        </div>
+
+        <div class="panel ref-impact-panel">
+          <div>
+            <p class="eyebrow">IMPACTO ILUSTRATIVO DE LA MEZCLA</p>
+            <h3>Más referidos pueden bajar el CAC combinado; no el CAC de anuncios por sí solos.</h3>
+            <p>Comparación por cada 100 altas de pago + referidos. Supone que 3 → 8 referidos sustituyen compras de Meta; mantiene el CAC de Meta en $50. No incluye los 47 clientes mensuales sin Meta y no es una previsión.</p>
+          </div>
+          <div class="ref-impact-numbers">
+            <div><span>Mezcla actual · 3 referidos</span><strong id="refBlendCurrent">$48.98</strong><small>97 Meta + 3 referidos del piloto</small></div>
+            <span class="ref-impact-arrow" aria-hidden="true">→</span>
+            <div><span>Meta de mezcla · 8 referidos</span><strong id="refBlendGoal">$46.97</strong><small>92 Meta + 8 referidos del prototipo</small></div>
+            <div class="ref-impact-change"><span>Cambio estimado</span><strong id="refBlendChange">−$2.01 / alta (−4.1%)</strong><small>Hipótesis, no CAC pagado</small></div>
+          </div>
+        </div>
+
+        <div class="ref-growth-grid ref-followup-grid">
+          <article class="panel ref-growth-panel">
+            <div class="panel-heading"><div><h3>Experimento de 90 días</h3><p>Prueba A/B antes de ampliar el programa</p></div></div>
+            <div class="ref-experiment">
+              <p><strong>Si</strong> esperamos a la entrega, mostramos el regalo aplicado y usamos un link de un toque, <strong>entonces</strong> las compras referidas deberían pasar de 3 a 8 por cada 100 clientes elegibles en 30 días.</p>
+              <div class="ref-experiment-row"><span>Grupo A</span><p>50% recibe el piloto actual; control.</p></div>
+              <div class="ref-experiment-row"><span>Grupo B</span><p>50% recibe la invitación nueva después de probar el café.</p></div>
+              <div class="ref-experiment-guard"><strong>Métrica principal:</strong> primeras compras referidas / clientes elegibles. <strong>Contramétricas:</strong> recompensas por referido ≤ $25 y cancelación de suscripción a 30 días ≤ 9% mensual del caso; detener o ajustar si alguna empeora.</div>
+              <p class="ref-case-context">Diseño móvil primero porque 82% de las visitas llega desde el celular. La suscripción se mantiene opcional: 9% cancela cada mes y la acumulación de café es una razón frecuente.</p>
+            </div>
+          </article>
+          <article class="panel ref-growth-panel">
+            <div class="panel-heading"><div><h3>Plan y papel de Meta</h3><p>90 días · decisión basada en el experimento</p></div></div>
+            <ol class="ref-timeline">
+              <li><span>DÍAS 1–30</span><p>Probar el flujo en celular, links y ledger de recompensas. Mantener Meta en $4,000 como base; no escalar.</p></li>
+              <li><span>DÍAS 31–60</span><p>Asignar clientes elegibles al azar 50/50. Medir compras referidas por 100 y costo por referido cada semana.</p></li>
+              <li><span>DÍAS 61–90</span><p>Ampliar solo si se acerca a 8/100 y respeta el tope. Si falla, volver al control y corregir el paso con mayor fuga.</p></li>
+            </ol>
+            <div class="ref-channel-note"><strong>Meta no desaparece:</strong> sigue como canal de adquisición medible y grupo de control; se evita depender de subir presupuesto para crecer.</div>
+          </article>
+        </div>
+
+        <div class="ref-questions-grid">
+          <article class="panel ref-questions-card"><span class="eyebrow">QUIEN INVITA</span><h3>¿Es para mí?</h3><p>“Ya recibí y disfruté el café.”</p><h3>¿Hace lo que quiero?</h3><p>Regalar $8 y ver mi muestra o saldo.</p><h3>¿Me importa ahora?</h3><p>El link aparece al probar el pedido.</p><h3>¿Sé cómo lograrlo?</h3><p>Un botón, link personal y avance visible.</p></article>
+          <article class="panel ref-questions-card"><span class="eyebrow">QUIEN RECIBE</span><h3>¿Es para mí?</h3><p>“Mara me invita a probar Tueste.”</p><h3>¿Hace lo que quiero?</h3><p>$8 aplicados antes de elegir.</p><h3>¿Me importa ahora?</h3><p>El regalo sirve en mi primera compra.</p><h3>¿Sé cómo lograrlo?</h3><p>Elijo pedido único o suscripción y confirmo.</p></article>
+        </div>
+
+        <aside class="panel ref-ai-note">
+          <span class="info-icon" aria-hidden="true">i</span>
+          <div><h3>En qué se equivocó o nos confundió la IA</h3><p>Confundir CAC de anuncios con CAC real deja fuera el fee: $4,000 / 100 = $40 de CAC de anuncios, pero ($4,000 + $1,000) / 100 = <strong>$50 de CAC real</strong>. Por eso el tope correcto de recompensas es $25, no $20. La propuesta separa las cifras y muestra el cálculo para que se pueda verificar.</p></div>
+        </aside>
+        <p class="ref-source-note">Base del caso: Parte 1 (inversión actual, fee, historial y mezcla 85/15) y Parte 2 (embudo, piloto y costos de recompensas). Las metas, conversiones futuras y escenarios marcados “hipótesis” deben validarse con un experimento; no son resultados observados.</p>
+      </section>
+
+      <footer class="page-footer">
+        <span>Tueste <span class="footer-divider">·</span> Prototipo de referidos para prueba local</span>
+        <a href="index.html">Volver al dashboard financiero ↗</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>

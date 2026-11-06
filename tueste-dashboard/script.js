@@ -35,6 +35,8 @@ const ACQUISITION_HISTORY = Object.freeze([
   { spend: 16000, customers: 235 },
   { spend: 20000, customers: 250 }
 ]);
+const LOOSE_ORDER_PROFILE = Object.freeze([1, 0.15, 0.2, 0.2, 0.2, 0.2, 0.2, 0.15, 0.15, 0.15, 0.2, 0.2]);
+const LOOSE_ORDER_PROFILE_AFTER_FIRST = LOOSE_ORDER_PROFILE.slice(1).reduce((sum, orders) => sum + orders, 0);
 const STORAGE_KEY = "tueste-dashboard-settings-v1";
 const SIMULATION_MONTHS = 24;
 const MONEY_FORMAT = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -201,8 +203,11 @@ function shares() {
 }
 
 function looseOrderFrequency(age) {
-  if (age === 0) return settings.firstMonthOrders;
-  if (age <= 11) return Math.max(0, settings.looseOrders12m - settings.firstMonthOrders) / 11;
+  if (age === 0) return Math.min(settings.firstMonthOrders, settings.looseOrders12m);
+  if (age <= 11) {
+    const remainingOrders = Math.max(0, settings.looseOrders12m - settings.firstMonthOrders);
+    return remainingOrders * LOOSE_ORDER_PROFILE[age] / LOOSE_ORDER_PROFILE_AFTER_FIRST;
+  }
   return 0.1;
 }
 
